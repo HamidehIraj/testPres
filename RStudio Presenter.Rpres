@@ -1,0 +1,53 @@
+Unsupervised prediction by KMeans Algorithm
+========================================================
+author: HamideH Iraj
+date: 2014-07-21
+
+What is Unsupervised Learning
+========================================================
+
+Sometimes You don't know the label for prediction. To build a predictor
+
+- Create Clusters
+- Name Clusters
+- Build predictor for clusters
+
+In a new data set:
+- Predict Clusters
+
+Introduction to iris Data
+========================================================
+
+```{r}
+data(iris)
+head(iris)
+```
+
+Take a Second Look at iris Data
+========================================================
+```{r, fig.width=20}
+library(lattice)
+xyplot(Sepal.Length ~ Sepal.Width | Species, data=iris,layout = c(3, 1),cex=1,size=20)
+```
+
+
+Unsupervised Clustering by KMeans
+========================================================
+```{r,fig.width=10,fig.height=10 , echo=FALSE,}
+library(shiny)
+library(caret)
+library(ggplot2)
+data(iris)
+
+inTrain  <- createDataPartition(y=iris$Species, p=0.7, list=FALSE)
+training <- iris[inTrain,]
+testing  <- iris[-inTrain,]
+kMeans1 <- kmeans(subset(training,select=-c(Species)),centers=3)    
+training$clusters <- as.factor(kMeans1$cluster)
+qplot<- qplot(Petal.Width,Petal.Length,colour=clusters,
+              data=training,main="iris Data Clusters")
+print(qplot)
+```
+
+
+
